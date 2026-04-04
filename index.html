@@ -1,0 +1,2056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SiteMind AI | Construction Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Fraunces:opsz,wght@9..144,300;400;500&amp;family=Material+Symbols+Outlined:wght,FILL@200..700,0..1&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FAF7F2;
+      --surface: #FFFFFF;
+      --surface-soft: #F5F0E8;
+      --surface-tint: #F2EBE1;
+      --border: #E3DDD3;
+      --text: #2A2118;
+      --muted: #7E7264;
+      --accent: #C17F3C;
+      --accent-soft: #F2D8B6;
+      --danger: #B85C4A;
+      --success: #4A6741;
+      --hero-a: #2A2118;
+      --hero-b: #3D2E20;
+      --radius-xl: 24px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+      --nav-height: 92px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top right, rgba(193, 127, 60, 0.10), transparent 22%),
+        linear-gradient(180deg, #FCF9F4 0%, var(--bg) 22%, #F7F1E8 100%);
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+      color: inherit;
+    }
+
+    button {
+      border: 0;
+      background: none;
+      cursor: pointer;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      vertical-align: middle;
+    }
+
+    .app-shell {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      position: relative;
+      padding-bottom: calc(var(--nav-height) + 28px);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 20px 16px;
+      backdrop-filter: blur(16px);
+      background: rgba(250, 247, 242, 0.82);
+      border-bottom: 1px solid rgba(227, 221, 211, 0.9);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-mark,
+    .mini-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(193, 127, 60, 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(193, 127, 60, 0.14);
+    }
+
+    .brand-title {
+      font-family: "Fraunces", serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      margin: 0;
+    }
+
+    .brand-subtitle {
+      margin: 2px 0 0;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, #F6F1E9, #EDE4D6);
+      border: 1px solid var(--border);
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    main {
+      padding: 18px 18px 0;
+    }
+
+    .screen {
+      display: none;
+      animation: fadeUp 220ms ease;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section {
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      margin: 0;
+      font-family: "Fraunces", serif;
+      font-size: 2.25rem;
+      line-height: 1.05;
+      font-weight: 300;
+      letter-spacing: -0.04em;
+    }
+
+    .section-copy {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+      line-height: 1.6;
+    }
+
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric-card,
+    .card,
+    .list-card,
+    .panel {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+
+    .metric-card {
+      padding: 18px;
+      min-height: 128px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-card::after {
+      content: "";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 0;
+      height: 3px;
+      border-radius: 999px 999px 0 0;
+      background: linear-gradient(90deg, var(--accent), rgba(193, 127, 60, 0.18));
+    }
+
+    .metric-card .label {
+      display: block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .metric-number {
+      font-family: "Fraunces", serif;
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin: 0 0 10px;
+    }
+
+    .metric-card strong,
+    .accent-number {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .metric-note {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .metric-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--text);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .span-2 {
+      grid-column: span 2;
+    }
+
+    .hero {
+      padding: 24px;
+      background: linear-gradient(135deg, var(--hero-a), var(--hero-b));
+      color: #F6EDE1;
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, rgba(193, 127, 60, 0.25) 0%, rgba(193, 127, 60, 0.08) 42%, transparent 68%);
+      pointer-events: none;
+    }
+
+    .hero-title {
+      margin: 0 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(246, 237, 225, 0.72);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .orb {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, #FFD498 0%, var(--accent) 58%, rgba(193, 127, 60, 0.18) 100%);
+      box-shadow: 0 0 24px rgba(193, 127, 60, 0.35);
+    }
+
+    .hero-copy {
+      margin: 0;
+      font-family: "Fraunces", serif;
+      font-size: 1.8rem;
+      line-height: 1.35;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      max-width: 92%;
+    }
+
+    .hero-copy strong {
+      color: #F0C878;
+      font-weight: 400;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+      color: rgba(246, 237, 225, 0.74);
+      font-size: 0.82rem;
+    }
+
+    .hero-actions,
+    .action-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .btn {
+      min-height: 46px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+      font-weight: 700;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: #F6EDE1;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .btn-soft {
+      background: var(--surface-soft);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .list-card,
+    .card,
+    .panel {
+      padding: 18px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .feed-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 16px 0;
+    }
+
+    .feed-item + .feed-item {
+      border-top: 1px solid rgba(227, 221, 211, 0.55);
+    }
+
+    .icon-chip {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: var(--surface-soft);
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .icon-chip.warn {
+      background: rgba(184, 92, 74, 0.08);
+      color: var(--danger);
+    }
+
+    .feed-title {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 700;
+    }
+
+    .feed-copy,
+    .muted {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .small-note {
+      color: var(--muted);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .chart-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    .chart {
+      height: 164px;
+      width: 100%;
+    }
+
+    .chart-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .segmented {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+
+    .segmented::-webkit-scrollbar {
+      display: none;
+    }
+
+    .segmented button {
+      white-space: nowrap;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .segmented button.active {
+      background: rgba(193, 127, 60, 0.11);
+      color: var(--accent);
+      border-color: rgba(193, 127, 60, 0.16);
+    }
+
+    .summary-pair {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .summary-box {
+      background: var(--surface-soft);
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .summary-box strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+
+    .worker-card {
+      padding: 16px 0;
+    }
+
+    .worker-card + .worker-card {
+      border-top: 1px solid rgba(227, 221, 211, 0.55);
+    }
+
+    .worker-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .worker-name {
+      margin: 0;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .worker-role {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .status-badge.paid {
+      background: rgba(74, 103, 65, 0.10);
+      color: var(--success);
+    }
+
+    .status-badge.pending {
+      background: rgba(193, 127, 60, 0.10);
+      color: var(--accent);
+    }
+
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .attendance-toggle {
+      width: 72px;
+      height: 40px;
+      border-radius: 999px;
+      background: #EADFD1;
+      padding: 4px;
+      position: relative;
+      transition: background 180ms ease;
+      flex-shrink: 0;
+    }
+
+    .attendance-toggle::after {
+      content: "";
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #fff;
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      transition: transform 180ms ease;
+      border: 1px solid rgba(227, 221, 211, 0.9);
+    }
+
+    .attendance-toggle.active {
+      background: rgba(74, 103, 65, 0.30);
+    }
+
+    .attendance-toggle.active::after {
+      transform: translateX(32px);
+    }
+
+    .slip {
+      margin-top: 16px;
+      background: var(--surface-soft);
+      border-radius: 18px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .slip .slip-label {
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .slip .slip-value {
+      font-size: 0.96rem;
+      font-weight: 700;
+    }
+
+    .material-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .material-card.low::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background: var(--danger);
+    }
+
+    .material-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .material-title {
+      margin: 8px 0 0;
+      font-family: "Fraunces", serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: -0.03em;
+    }
+
+    .material-stock {
+      text-align: right;
+    }
+
+    .material-stock strong {
+      display: block;
+      font-family: "Fraunces", serif;
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: -0.04em;
+      color: var(--accent);
+    }
+
+    .material-card.low .material-stock strong {
+      color: var(--danger);
+    }
+
+    .mini-chart {
+      height: 66px;
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .mini-chart span {
+      flex: 1;
+      border-radius: 10px 10px 0 0;
+      background: #E8DED1;
+    }
+
+    .material-card.low .mini-chart span {
+      background: rgba(184, 92, 74, 0.14);
+    }
+
+    .material-card .mini-chart span:last-child {
+      background: rgba(193, 127, 60, 0.42);
+    }
+
+    .material-card.low .mini-chart span:last-child {
+      background: rgba(184, 92, 74, 0.58);
+    }
+
+    .utility-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .utility-card {
+      padding: 16px;
+      min-height: 130px;
+    }
+
+    .utility-card h4 {
+      margin: 12px 0 8px;
+      font-size: 1rem;
+    }
+
+    .utility-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .chat-thread {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .chat-bubble {
+      max-width: 92%;
+      border-radius: 22px;
+      padding: 16px 18px;
+      border: 1px solid var(--border);
+    }
+
+    .chat-bubble.user {
+      align-self: flex-end;
+      background: var(--surface-soft);
+      border-top-right-radius: 8px;
+    }
+
+    .chat-bubble.ai {
+      align-self: flex-start;
+      background: var(--surface);
+      border-top-left-radius: 8px;
+    }
+
+    .chat-bubble p {
+      margin: 0;
+      line-height: 1.65;
+    }
+
+    .chat-bubble p strong {
+      color: var(--accent);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .chip {
+      padding: 10px 12px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .chat-input {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 10px;
+      margin-top: 18px;
+    }
+
+    .chat-input input {
+      border: 0;
+      outline: 0;
+      background: transparent;
+      flex: 1;
+      min-width: 0;
+      font-size: 0.96rem;
+    }
+
+    .chat-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: var(--surface-soft);
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      border: 1px solid rgba(227, 221, 211, 0.72);
+    }
+
+    .chat-send {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .settings-list .list-card + .list-card {
+      margin-top: 12px;
+    }
+
+    .profile-block {
+      padding: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(245,240,232,0.72));
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: none;
+      align-items: stretch;
+      justify-content: center;
+      background: rgba(250, 247, 242, 0.72);
+      backdrop-filter: blur(20px);
+    }
+
+    .overlay.open {
+      display: flex;
+    }
+
+    .overlay-panel {
+      width: min(430px, 100%);
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at center, rgba(193, 127, 60, 0.11), transparent 34%),
+        linear-gradient(180deg, #FBF8F3 0%, #F6F0E6 100%);
+      padding-bottom: calc(var(--nav-height) + 10px);
+      overflow-y: auto;
+    }
+
+    .overlay-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(227, 221, 211, 0.88);
+      position: sticky;
+      top: 0;
+      background: rgba(250, 247, 242, 0.86);
+      backdrop-filter: blur(18px);
+      z-index: 3;
+    }
+
+    .ghost-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+    }
+
+    .voice-wrap {
+      padding: 44px 24px 28px;
+      text-align: center;
+    }
+
+    .voice-title {
+      margin: 0 auto;
+      max-width: 310px;
+      font-family: "Fraunces", serif;
+      font-size: 2.1rem;
+      line-height: 1.3;
+      font-weight: 300;
+      letter-spacing: -0.03em;
+    }
+
+    .voice-title strong {
+      color: var(--accent);
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .pulse {
+      width: 300px;
+      height: 300px;
+      margin: 28px auto 8px;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    .pulse::before,
+    .pulse::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(193, 127, 60, 0.10);
+    }
+
+    .pulse::before {
+      inset: 24px;
+      animation: pulseA 2.6s ease-in-out infinite;
+    }
+
+    .pulse::after {
+      inset: 0;
+      animation: pulseB 2.6s ease-in-out infinite 0.35s;
+    }
+
+    @keyframes pulseA {
+      0%, 100% { transform: scale(0.96); opacity: 0.45; }
+      50% { transform: scale(1.02); opacity: 1; }
+    }
+
+    @keyframes pulseB {
+      0%, 100% { transform: scale(0.92); opacity: 0.25; }
+      50% { transform: scale(1.04); opacity: 0.55; }
+    }
+
+    .mic-button {
+      width: 116px;
+      height: 116px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      box-shadow: 0 0 0 18px rgba(255, 255, 255, 0.34);
+    }
+
+    .overlay-card {
+      background: rgba(255, 255, 255, 0.98);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      text-align: left;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.68rem;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+      padding: 14px 15px;
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    .parsed-box {
+      padding: 14px;
+      background: var(--surface-soft);
+      border-radius: 18px;
+      border: 1px solid rgba(227, 221, 211, 0.6);
+      margin-top: 16px;
+    }
+
+    .invoice-drop {
+      padding: 28px 22px;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      background: rgba(245, 240, 232, 0.85);
+      text-align: center;
+    }
+
+    .invoice-drop .upload-icon {
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid var(--border);
+      color: var(--accent);
+    }
+
+    .expense-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+    }
+
+    .expense-item + .expense-item {
+      border-top: 1px solid rgba(227, 221, 211, 0.6);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 108px;
+      transform: translateX(-50%) translateY(16px);
+      min-width: 280px;
+      max-width: calc(100vw - 32px);
+      background: var(--text);
+      color: #F6EDE1;
+      padding: 14px 16px;
+      border-radius: 16px;
+      font-size: 0.92rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+      z-index: 80;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 12px;
+      width: min(430px, calc(100vw - 20px));
+      height: var(--nav-height);
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      align-items: center;
+      padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px));
+      backdrop-filter: blur(18px);
+      z-index: 50;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: #8F8375;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    .nav-item .material-symbols-outlined {
+      font-size: 1.45rem;
+    }
+
+    .nav-item.active {
+      color: var(--accent);
+    }
+
+    .nav-item.active .material-symbols-outlined {
+      font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24;
+    }
+
+    @media (min-width: 768px) {
+      .app-shell,
+      .overlay-panel {
+        max-width: 960px;
+      }
+
+      .app-shell {
+        padding-bottom: 150px;
+      }
+
+      .topbar,
+      main {
+        padding-left: 28px;
+        padding-right: 28px;
+      }
+
+      .grid-cards {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .span-2 {
+        grid-column: span 2;
+      }
+
+      .dashboard-layout {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 18px;
+        align-items: start;
+      }
+
+      .utility-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .bottom-nav {
+        width: min(720px, calc(100vw - 40px));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">
+          <span class="material-symbols-outlined">construction</span>
+        </div>
+        <div>
+          <h1 class="brand-title">SiteMind AI</h1>
+          <p class="brand-subtitle">Samarth Developers • Nashik Ring Road</p>
+        </div>
+      </div>
+      <div class="avatar" aria-label="User avatar">SP</div>
+    </header>
+
+    <main>
+      <section class="screen active" id="screen-home" data-screen="home">
+        <div class="section">
+          <p class="eyebrow">Construction Intelligence</p>
+          <h2 class="section-title">A calm financial brain for site operations.</h2>
+          <p class="section-copy">Today’s view combines labour payouts, live stock position, invoice-led expenses and AI recommendations for Tower B and the Nashik Ring Road project office.</p>
+        </div>
+
+        <div class="section grid-cards">
+          <article class="metric-card">
+            <span class="label">Total Cost</span>
+            <p class="metric-number">₹42,85,000</p>
+            <div class="metric-note"><strong>+4.8%</strong> vs last month</div>
+          </article>
+          <article class="metric-card">
+            <span class="label">Budget Left</span>
+            <p class="metric-number">₹12,40,000</p>
+            <div class="metric-note">26 days runway at current burn</div>
+          </article>
+          <article class="metric-card">
+            <span class="label">Active Workers</span>
+            <p class="metric-number">218</p>
+            <div class="metric-note">188 labour + 30 staff live today</div>
+          </article>
+          <article class="metric-card">
+            <span class="label">This Week Payroll</span>
+            <p class="metric-number">₹8,72,400</p>
+            <div class="metric-note">168 slips ready, 32 pending approval</div>
+          </article>
+        </div>
+
+        <section class="section hero">
+          <div class="hero-title">
+            <span class="orb"></span>
+            AI Live Insight
+          </div>
+          <p class="hero-copy">Cement supply at <strong>Tower B</strong> will run out in <strong>2 days</strong>. Based on the current pour plan, I recommend reordering <strong>500 bags</strong> from Nashik Concrete Supply.</p>
+          <div class="hero-meta">
+            <span>Current stock: 185 bags</span>
+            <span>Daily usage: 92 bags</span>
+            <span>Price impact: ₹1,92,500</span>
+          </div>
+          <div class="hero-actions">
+            <button class="btn btn-primary" data-toast="Purchase order draft created for 500 cement bags.">Confirm Order</button>
+            <button class="btn btn-secondary" data-open-overlay="invoice">Details</button>
+          </div>
+        </section>
+
+        <div class="dashboard-layout section">
+          <article class="panel">
+            <div class="chart-header">
+              <div>
+                <div class="small-note">Spending Analytics</div>
+                <p class="metric-number" style="font-size:2.2rem;margin:10px 0 6px;">₹18,64,000</p>
+                <div class="metric-note">Last 30 days spend across payroll, steel, cement and transport</div>
+              </div>
+              <div class="chart-legend">
+                <div><span class="legend-dot" style="background:var(--accent)"></span>Actual</div>
+                <div><span class="legend-dot" style="background:transparent;border:1px solid rgba(42,33,24,0.35);"></span>Plan</div>
+              </div>
+            </div>
+            <svg class="chart" viewBox="0 0 360 164" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="30 day spending chart">
+              <line x1="0" y1="24" x2="360" y2="24" stroke="#EDE6DD"/>
+              <line x1="0" y1="78" x2="360" y2="78" stroke="#EDE6DD"/>
+              <line x1="0" y1="132" x2="360" y2="132" stroke="#EDE6DD"/>
+              <path d="M0 88C34 88 60 88 92 88C126 88 155 88 190 88C223 88 256 88 292 88C316 88 340 88 360 88" stroke="#2A2118" stroke-opacity=".22" stroke-dasharray="5 6"/>
+              <path d="M0 126C22 118 42 110 60 111C78 112 96 131 120 126C143 121 165 86 181 65C198 43 216 28 240 30C264 31 282 68 301 101C318 131 339 126 360 60" stroke="#C17F3C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="chart-labels">
+              <span>04 Mar</span>
+              <span>14 Mar</span>
+              <span>24 Mar</span>
+              <span>03 Apr</span>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="row" style="margin-bottom:8px;">
+              <div class="small-note">Anomaly Feed</div>
+              <button class="small-note" style="color:var(--accent);">View All</button>
+            </div>
+            <div class="feed-item">
+              <div class="icon-chip warn"><span class="material-symbols-outlined">warning</span></div>
+              <div>
+                <p class="feed-title">Rebar usage increased 15% in Zone B</p>
+                <p class="feed-copy">Cutting waste jumped from 3.8% to 6.1% this week. Review cutting logs before approving the next steel indent.</p>
+                <p class="small-note" style="margin-top:8px;">12 min ago</p>
+              </div>
+            </div>
+            <div class="feed-item">
+              <div class="icon-chip"><span class="material-symbols-outlined">payments</span></div>
+              <div>
+                <p class="feed-title">Worker payout cluster ready for Friday</p>
+                <p class="feed-copy">168 labour slips are calculated. Estimated cash outflow is <strong class="accent-number">₹6,19,200</strong>.</p>
+                <p class="small-note" style="margin-top:8px;">43 min ago</p>
+              </div>
+            </div>
+            <div class="feed-item">
+              <div class="icon-chip"><span class="material-symbols-outlined">receipt_long</span></div>
+              <div>
+                <p class="feed-title">Two invoices waiting manual confirmation</p>
+                <p class="feed-copy">Sharma Steel and Nashik Concrete Supply totals match purchase orders, but GST fields need review.</p>
+                <p class="small-note" style="margin-top:8px;">1 hr ago</p>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <section class="section">
+          <div class="row" style="margin-bottom:12px;">
+            <div>
+              <p class="eyebrow" style="margin-bottom:6px;">Quick Operations</p>
+              <h3 style="margin:0;font-size:1.2rem;">Move fast without losing context</h3>
+            </div>
+          </div>
+          <div class="utility-grid">
+            <article class="card utility-card">
+              <div class="mini-mark"><span class="material-symbols-outlined">mic</span></div>
+              <h4>Voice Material Logger</h4>
+              <p>Log material movement like “Add 50 bags cement to Tower B” and confirm before saving.</p>
+              <div class="action-row" style="margin-top:12px;">
+                <button class="btn btn-soft btn-block" data-open-overlay="voice">Open Mic</button>
+              </div>
+            </article>
+            <article class="card utility-card">
+              <div class="mini-mark"><span class="material-symbols-outlined">description</span></div>
+              <h4>Invoice Scanner</h4>
+              <p>Extract supplier, item quantities and total amount from PDF, JPG or PNG invoices.</p>
+              <div class="action-row" style="margin-top:12px;">
+                <button class="btn btn-soft btn-block" data-open-overlay="invoice">Scan Invoice</button>
+              </div>
+            </article>
+            <article class="card utility-card">
+              <div class="mini-mark"><span class="material-symbols-outlined">account_balance_wallet</span></div>
+              <h4>Cash Position</h4>
+              <p>Weekly labour cash requirement is ₹6,19,200. Bank transfer cycle for staff closes on 28 Apr.</p>
+            </article>
+            <article class="card utility-card">
+              <div class="mini-mark"><span class="material-symbols-outlined">location_on</span></div>
+              <h4>Site Snapshot</h4>
+              <p>Live zones: Tower A slab, Tower B column work, internal road trenching near Nashik Ring Road.</p>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <section class="screen" id="screen-workers" data-screen="workers">
+        <div class="section">
+          <p class="eyebrow">Payroll</p>
+          <h2 class="section-title">Weekly wages, attendance and payment slips.</h2>
+          <p class="section-copy">Built for a real site rhythm: 200 labour workers paid weekly and 30 staff paid monthly, with clear slip status for accounts and supervisors.</p>
+        </div>
+
+        <div class="section segmented" id="payroll-tabs">
+          <button class="active" data-payroll-filter="labour">Labour Crew</button>
+          <button data-payroll-filter="staff">Staff</button>
+          <button data-payroll-filter="pending">Pending Payments</button>
+        </div>
+
+        <section class="section panel">
+          <div class="row">
+            <div>
+              <div class="small-note" id="payroll-summary-label">Labour Payout Total</div>
+              <p class="metric-number" style="font-size:2rem;margin:8px 0 0;" id="weekly-total">₹74,550</p>
+            </div>
+            <div class="metric-pill">
+              <span class="material-symbols-outlined" style="font-size:1rem;">calendar_month</span>
+              Current View
+            </div>
+          </div>
+          <div class="summary-pair">
+            <div class="summary-box">
+              <div class="small-note">Labour Active</div>
+              <strong id="present-count">6 Present Today</strong>
+            </div>
+            <div class="summary-box">
+              <div class="small-note">Pending Slips</div>
+              <strong id="pending-count">2 Awaiting Release</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="section panel" id="worker-list">
+          <article class="worker-card" data-group="labour pending">
+            <div class="worker-head">
+              <div>
+                <p class="worker-name">Ramesh Kumar</p>
+                <p class="worker-role">Mason • ₹850/day • Tower B core</p>
+              </div>
+              <span class="status-badge pending">Pending</span>
+            </div>
+            <div class="toggle-row">
+              <div class="metric-note">Attendance today</div>
+              <button class="attendance-toggle active" data-rate="850" data-days="6" aria-label="Mark Ramesh Kumar present"></button>
+            </div>
+            <div class="slip">
+              <div>
+                <div class="slip-label">Days Worked</div>
+                <div class="slip-value days-worked">6</div>
+              </div>
+              <div>
+                <div class="slip-label">Total Amount</div>
+                <div class="slip-value wage-amount">₹5,100</div>
+              </div>
+              <div>
+                <div class="slip-label">Slip Status</div>
+                <div class="slip-value">Pending</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="worker-card" data-group="labour">
+            <div class="worker-head">
+              <div>
+                <p class="worker-name">Suresh Patil</p>
+                <p class="worker-role">Bar Bender • ₹920/day • Zone B foundation</p>
+              </div>
+              <span class="status-badge paid">Paid</span>
+            </div>
+            <div class="toggle-row">
+              <div class="metric-note">Attendance today</div>
+              <button class="attendance-toggle active" data-rate="920" data-days="7" aria-label="Mark Suresh Patil present"></button>
+            </div>
+            <div class="slip">
+              <div>
+                <div class="slip-label">Days Worked</div>
+                <div class="slip-value days-worked">7</div>
+              </div>
+              <div>
+                <div class="slip-label">Total Amount</div>
+                <div class="slip-value wage-amount">₹6,440</div>
+              </div>
+              <div>
+                <div class="slip-label">Slip Status</div>
+                <div class="slip-value">Paid</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="worker-card" data-group="labour pending">
+            <div class="worker-head">
+              <div>
+                <p class="worker-name">Ganesh Shinde</p>
+                <p class="worker-role">Shuttering Carpenter • ₹980/day • Tower A slab</p>
+              </div>
+              <span class="status-badge pending">Pending</span>
+            </div>
+            <div class="toggle-row">
+              <div class="metric-note">Attendance today</div>
+              <button class="attendance-toggle" data-rate="980" data-days="5" aria-label="Mark Ganesh Shinde present"></button>
+            </div>
+            <div class="slip">
+              <div>
+                <div class="slip-label">Days Worked</div>
+                <div class="slip-value days-worked">5</div>
+              </div>
+              <div>
+                <div class="slip-label">Total Amount</div>
+                <div class="slip-value wage-amount">₹4,900</div>
+              </div>
+              <div>
+                <div class="slip-label">Slip Status</div>
+                <div class="slip-value">Pending</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="worker-card" data-group="labour">
+            <div class="worker-head">
+              <div>
+                <p class="worker-name">Imran Shaikh</p>
+                <p class="worker-role">Electrician Helper • ₹780/day • Basement services</p>
+              </div>
+              <span class="status-badge paid">Paid</span>
+            </div>
+            <div class="toggle-row">
+              <div class="metric-note">Attendance today</div>
+              <button class="attendance-toggle active" data-rate="780" data-days="6" aria-label="Mark Imran Shaikh present"></button>
+            </div>
+            <div class="slip">
+              <div>
+                <div class="slip-label">Days Worked</div>
+                <div class="slip-value days-worked">6</div>
+              </div>
+              <div>
+                <div class="slip-label">Total Amount</div>
+                <div class="slip-value wage-amount">₹4,680</div>
+              </div>
+              <div>
+                <div class="slip-label">Slip Status</div>
+                <div class="slip-value">Paid</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="worker-card" data-group="staff">
+            <div class="worker-head">
+              <div>
+                <p class="worker-name">Neha Joshi</p>
+                <p class="worker-role">Site Accountant • ₹32,000/month • Accounts office</p>
+              </div>
+              <span class="status-badge paid">Paid</span>
+            </div>
+            <div class="toggle-row">
+              <div class="metric-note">Attendance today</div>
+              <button class="attendance-toggle active" data-rate="1067" data-days="30" aria-label="Mark Neha Joshi present"></button>
+            </div>
+            <div class="slip">
+              <div>
+                <div class="slip-label">Days Worked</div>
+                <div class="slip-value days-worked">30</div>
+              </div>
+              <div>
+                <div class="slip-label">Total Amount</div>
+                <div class="slip-value wage-amount">₹32,010</div>
+              </div>
+              <div>
+                <div class="slip-label">Slip Status</div>
+                <div class="slip-value">Paid</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="worker-card" data-group="staff pending">
+            <div class="worker-head">
+              <div>
+                <p class="worker-name">Vikram Deshmukh</p>
+                <p class="worker-role">Site Engineer • ₹45,000/month • Tower B</p>
+              </div>
+              <span class="status-badge pending">Pending</span>
+            </div>
+            <div class="toggle-row">
+              <div class="metric-note">Attendance today</div>
+              <button class="attendance-toggle active" data-rate="1500" data-days="29" aria-label="Mark Vikram Deshmukh present"></button>
+            </div>
+            <div class="slip">
+              <div>
+                <div class="slip-label">Days Worked</div>
+                <div class="slip-value days-worked">29</div>
+              </div>
+              <div>
+                <div class="slip-label">Total Amount</div>
+                <div class="slip-value wage-amount">₹43,500</div>
+              </div>
+              <div>
+                <div class="slip-label">Slip Status</div>
+                <div class="slip-value">Pending</div>
+              </div>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <section class="screen" id="screen-inventory" data-screen="inventory">
+        <div class="section">
+          <p class="eyebrow">Stock Control</p>
+          <h2 class="section-title">Material visibility without stock surprises.</h2>
+          <p class="section-copy">Store keepers and site engineers get current stock, 7-day consumption and low-stock alerts tied to actual site usage.</p>
+        </div>
+
+        <section class="section stack">
+          <article class="card material-card">
+            <div class="material-header">
+              <div>
+                <div class="small-note">Bulk Material</div>
+                <h3 class="material-title">Cement</h3>
+              </div>
+              <div class="material-stock">
+                <strong>185</strong>
+                <div class="metric-note">bags in stock</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="metric-pill">7-day usage: 612 bags</div>
+              <div class="small-note">Updated 18 min ago</div>
+            </div>
+            <div class="mini-chart" aria-hidden="true">
+              <span style="height:42%"></span>
+              <span style="height:56%"></span>
+              <span style="height:48%"></span>
+              <span style="height:72%"></span>
+              <span style="height:68%"></span>
+              <span style="height:91%"></span>
+              <span style="height:100%"></span>
+            </div>
+            <p class="feed-copy">Projected depletion in 2 days. Tower B podium pour is driving the spike.</p>
+          </article>
+
+          <article class="card material-card low">
+            <div class="material-header">
+              <div>
+                <div class="small-note" style="color:var(--danger);">Low Stock Alert</div>
+                <h3 class="material-title">Steel</h3>
+              </div>
+              <div class="material-stock">
+                <strong>12</strong>
+                <div class="metric-note">tons in yard</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="metric-pill" style="background:rgba(184,92,74,0.1);color:var(--danger);">Critical reorder window</div>
+              <div class="small-note">Updated 36 min ago</div>
+            </div>
+            <div class="mini-chart" aria-hidden="true">
+              <span style="height:88%"></span>
+              <span style="height:78%"></span>
+              <span style="height:62%"></span>
+              <span style="height:54%"></span>
+              <span style="height:42%"></span>
+              <span style="height:28%"></span>
+              <span style="height:18%"></span>
+            </div>
+            <p class="feed-copy">At current bending demand, rebar stock will last 3 days. Sharma Steel quote revision is +15% this month.</p>
+          </article>
+
+          <article class="card material-card">
+            <div class="material-header">
+              <div>
+                <div class="small-note">Masonry</div>
+                <h3 class="material-title">Bricks</h3>
+              </div>
+              <div class="material-stock">
+                <strong>24,000</strong>
+                <div class="metric-note">units in stock</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="metric-pill">7-day usage: 8,400 units</div>
+              <div class="small-note">Updated 1 hr ago</div>
+            </div>
+            <div class="mini-chart" aria-hidden="true">
+              <span style="height:28%"></span>
+              <span style="height:40%"></span>
+              <span style="height:36%"></span>
+              <span style="height:34%"></span>
+              <span style="height:52%"></span>
+              <span style="height:44%"></span>
+              <span style="height:48%"></span>
+            </div>
+            <p class="feed-copy">Healthy buffer for 11 days. Masonry pace is aligned with the April schedule.</p>
+          </article>
+        </section>
+
+        <section class="section">
+          <div class="utility-grid">
+            <article class="card utility-card">
+              <div class="mini-mark"><span class="material-symbols-outlined">add_circle</span></div>
+              <h4>Add Material</h4>
+              <p>Create a fresh entry for sand, aggregate, tiles or plumbing stock without opening a separate form.</p>
+              <div class="action-row" style="margin-top:12px;">
+                <button class="btn btn-soft btn-block" data-toast="New material form is ready for the store team.">+</button>
+              </div>
+            </article>
+            <article class="card utility-card">
+              <div class="mini-mark"><span class="material-symbols-outlined">mic</span></div>
+              <h4>Voice Logger</h4>
+              <p>Record stock movement while walking the site and confirm the parsed quantity before saving.</p>
+              <div class="action-row" style="margin-top:12px;">
+                <button class="btn btn-soft btn-block" data-open-overlay="voice">Open Voice Logger</button>
+              </div>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <section class="screen" id="screen-ai" data-screen="ai">
+        <div class="section">
+          <p class="eyebrow">AI Hub</p>
+          <h2 class="section-title">Explain site costs, then recommend the next move.</h2>
+          <p class="section-copy">The assistant speaks like a calm construction expert: short, numeric and actionable for procurement, finance and project leads.</p>
+        </div>
+
+        <section class="section panel">
+          <div class="row" style="margin-bottom:18px;">
+            <div class="metric-pill">
+              <span class="material-symbols-outlined" style="font-size:1rem;">smart_toy</span>
+              Live Analysis
+            </div>
+            <button class="small-note" style="color:var(--accent);" data-toast="AI context synced with payroll, inventory and invoices.">Refresh Context</button>
+          </div>
+
+          <div class="chat-thread">
+            <div class="chat-bubble user">
+              <p>Why is rebar cost increasing?</p>
+            </div>
+            <div class="chat-bubble ai">
+              <p>I noticed a <strong>15% increase</strong> in Sharma Steel pricing and a <strong>5.2% rise</strong> in cutting waste across Zone B. If we keep the same pattern, steel overspend could reach <strong>₹2,35,000</strong> by month end. I recommend reviewing cutting logs today and negotiating a blended-rate supply for the next 20 tons.</p>
+              <div class="chip-row">
+                <button class="chip" data-toast="Opening steel cutting logs for Zone B.">View Logs</button>
+                <button class="chip" data-toast="Supplier contact card for Sharma Steel is ready.">Contact Supplier</button>
+              </div>
+            </div>
+            <div class="chat-bubble ai">
+              <p>Secondary signal: labour productivity on the rebar crew fell from <strong>1.8 tons/day</strong> to <strong>1.5 tons/day</strong>. Consider checking bar bending sequence before approving overtime.</p>
+            </div>
+          </div>
+
+          <div class="chat-input">
+            <div class="chat-icon"><span class="material-symbols-outlined">attach_file</span></div>
+            <input type="text" value="Ask about cement demand, vendor costs or wage variance..." aria-label="AI chat input">
+            <button class="chat-icon chat-send" data-toast="Question queued for SiteMind AI.">
+              <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">auto_awesome</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="section stack">
+          <article class="list-card">
+            <div class="row">
+              <div>
+                <div class="small-note">Recent Insight</div>
+                <p class="feed-title" style="margin-top:8px;">Concrete pumping cost is stable</p>
+              </div>
+              <span class="metric-pill">-1.8%</span>
+            </div>
+            <p class="feed-copy">Two recent pours finished within planned duration, keeping diesel and pump rental aligned with budget.</p>
+          </article>
+          <article class="list-card">
+            <div class="row">
+              <div>
+                <div class="small-note">Recent Insight</div>
+                <p class="feed-title" style="margin-top:8px;">Invoice mismatch avoided</p>
+              </div>
+              <span class="metric-pill">₹18,750 saved</span>
+            </div>
+            <p class="feed-copy">AI flagged a duplicate transport line item on invoice INV-SD-129. Accounts held the bill before payment.</p>
+          </article>
+        </section>
+      </section>
+
+      <section class="screen" id="screen-settings" data-screen="settings">
+        <div class="section">
+          <p class="eyebrow">Settings</p>
+          <h2 class="section-title">Role-based visibility for site, accounts and store teams.</h2>
+          <p class="section-copy">Each role sees only what matters: payroll for accounts, inventory for store keepers, and AI summaries for project management.</p>
+        </div>
+
+        <section class="section settings-list">
+          <article class="list-card profile-block">
+            <div class="row">
+              <div>
+                <p class="worker-name" style="font-size:1.08rem;">Sakshi Patil</p>
+                <p class="worker-role">Project Finance Lead • Samarth Developers</p>
+              </div>
+              <span class="status-badge paid">Accounts Role</span>
+            </div>
+          </article>
+
+          <article class="list-card">
+            <div class="row">
+              <div>
+                <div class="small-note">Default Dashboard</div>
+                <p class="feed-title" style="margin-top:8px;">Finance + Stock + AI Summary</p>
+              </div>
+              <span class="metric-pill">Enabled</span>
+            </div>
+            <p class="feed-copy">Combines labour payout risk, material depletion and invoice extraction for faster weekly reviews.</p>
+          </article>
+
+          <article class="list-card">
+            <div class="row">
+              <div>
+                <div class="small-note">Alerts</div>
+                <p class="feed-title" style="margin-top:8px;">Low stock and payout exceptions</p>
+              </div>
+              <span class="metric-pill">WhatsApp + Email</span>
+            </div>
+            <p class="feed-copy">Critical low stock, unpaid slip clusters and invoice mismatches are routed to project leads automatically.</p>
+          </article>
+
+          <article class="list-card">
+            <div class="row">
+              <div>
+                <div class="small-note">Localization</div>
+                <p class="feed-title" style="margin-top:8px;">India settings applied</p>
+              </div>
+              <span class="metric-pill">₹ INR</span>
+            </div>
+            <p class="feed-copy">Indian currency formatting, GST-oriented invoice fields and realistic local naming are active across the product.</p>
+          </article>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="overlay" id="voice-overlay" aria-hidden="true">
+    <div class="overlay-panel">
+      <div class="overlay-head">
+        <div class="brand" style="gap:12px;">
+          <div class="mini-mark"><span class="material-symbols-outlined">mic</span></div>
+          <div>
+            <div class="worker-name" style="font-family:'Fraunces',serif;font-weight:300;">Voice Material Logger</div>
+            <div class="worker-role">Hands-free site entry</div>
+          </div>
+        </div>
+        <button class="ghost-btn" data-close-overlay="voice" aria-label="Close voice logger">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="voice-wrap">
+        <p class="eyebrow" style="margin-bottom:18px;">Listening</p>
+        <h2 class="voice-title">Add <strong>50 bags cement</strong> to <strong>Tower B</strong>.</h2>
+        <div class="pulse">
+          <button class="mic-button" aria-label="Microphone button">
+            <span class="material-symbols-outlined" style="font-size:3rem;font-variation-settings:'FILL' 1;">mic</span>
+          </button>
+        </div>
+
+        <div class="overlay-card">
+          <div class="row">
+            <div>
+              <div class="small-note">Parsed Confirmation</div>
+              <p class="feed-title" style="margin-top:8px;">Material movement looks valid</p>
+            </div>
+            <span class="metric-pill">Ready to save</span>
+          </div>
+          <div class="parsed-box">
+            <div class="expense-item">
+              <span>Action</span>
+              <strong>Add</strong>
+            </div>
+            <div class="expense-item">
+              <span>Material</span>
+              <strong>Cement</strong>
+            </div>
+            <div class="expense-item">
+              <span>Quantity</span>
+              <strong>50 bags</strong>
+            </div>
+            <div class="expense-item">
+              <span>Location</span>
+              <strong>Tower B</strong>
+            </div>
+            <div class="expense-item">
+              <span>Recorded by</span>
+              <strong>Store Keeper Desk</strong>
+            </div>
+          </div>
+          <div class="action-row">
+            <button class="btn btn-primary btn-block" id="save-voice-log">Confirm &amp; Save</button>
+            <button class="btn btn-soft btn-block" data-toast="Quantity editor opened for the voice log.">Edit Quantity</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="invoice-overlay" aria-hidden="true">
+    <div class="overlay-panel">
+      <div class="overlay-head">
+        <div class="brand" style="gap:12px;">
+          <div class="mini-mark"><span class="material-symbols-outlined">description</span></div>
+          <div>
+            <div class="worker-name" style="font-family:'Fraunces',serif;font-weight:300;">Invoice Scanner</div>
+            <div class="worker-role">AI-assisted expense confirmation</div>
+          </div>
+        </div>
+        <button class="ghost-btn" data-close-overlay="invoice" aria-label="Close invoice scanner">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div style="padding:24px 20px 28px;">
+        <div class="invoice-drop">
+          <div class="upload-icon"><span class="material-symbols-outlined">cloud_upload</span></div>
+          <h3 style="margin:0 0 8px;">Upload Invoice</h3>
+          <p class="section-copy" style="margin:0;">PDF, JPG or PNG from suppliers like Sharma Steel or Nashik Concrete Supply.</p>
+        </div>
+
+        <section class="overlay-card" style="margin-top:20px;">
+          <div class="row">
+            <div>
+              <div class="small-note">Extracted Details</div>
+              <p class="feed-title" style="margin-top:8px;">Invoice INV-SD-129</p>
+            </div>
+            <span class="metric-pill">Verified</span>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="supplier-name">Supplier Name</label>
+              <input id="supplier-name" value="Sharma Steel">
+            </div>
+            <div class="field">
+              <label for="invoice-items">Items</label>
+              <textarea id="invoice-items">TMT Steel Fe500D - 8 tons
+Binding wire - 120 kg
+Transport to Nashik Ring Road site</textarea>
+            </div>
+            <div class="field">
+              <label for="invoice-quantity">Quantity Summary</label>
+              <input id="invoice-quantity" value="8 tons + 120 kg wire">
+            </div>
+            <div class="field">
+              <label for="invoice-total">Total Amount (₹)</label>
+              <input id="invoice-total" value="₹6,48,500">
+            </div>
+          </div>
+
+          <div class="parsed-box">
+            <div class="expense-item">
+              <span>GST</span>
+              <strong>18%</strong>
+            </div>
+            <div class="expense-item">
+              <span>Site</span>
+              <strong>Tower B, Nashik Ring Road</strong>
+            </div>
+            <div class="expense-item">
+              <span>Status</span>
+              <strong>Ready for expense ledger</strong>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button class="btn btn-primary btn-block" id="confirm-invoice">Confirm &amp; Add to Expenses</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <nav class="bottom-nav" aria-label="Primary navigation">
+    <button class="nav-item active" data-nav="home">
+      <span class="material-symbols-outlined">home</span>
+      <span>Home</span>
+    </button>
+    <button class="nav-item" data-nav="workers">
+      <span class="material-symbols-outlined">groups</span>
+      <span>Workers</span>
+    </button>
+    <button class="nav-item" data-nav="inventory">
+      <span class="material-symbols-outlined">inventory_2</span>
+      <span>Inventory</span>
+    </button>
+    <button class="nav-item" data-nav="ai">
+      <span class="material-symbols-outlined">auto_awesome</span>
+      <span>AI</span>
+    </button>
+    <button class="nav-item" data-nav="settings">
+      <span class="material-symbols-outlined">settings</span>
+      <span>Settings</span>
+    </button>
+  </nav>
+
+  <script>
+    const navButtons = document.querySelectorAll("[data-nav]");
+    const screens = document.querySelectorAll("[data-screen]");
+    const toast = document.getElementById("toast");
+    const overlays = {
+      voice: document.getElementById("voice-overlay"),
+      invoice: document.getElementById("invoice-overlay")
+    };
+
+    const formatINR = (value) => new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0
+    }).format(value);
+
+    function showScreen(name) {
+      navButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.nav === name);
+      });
+
+      screens.forEach((screen) => {
+        screen.classList.toggle("active", screen.dataset.screen === name);
+      });
+    }
+
+    navButtons.forEach((button) => {
+      button.addEventListener("click", () => showScreen(button.dataset.nav));
+    });
+
+    let toastTimer;
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2200);
+    }
+
+    document.querySelectorAll("[data-toast]").forEach((button) => {
+      button.addEventListener("click", () => showToast(button.dataset.toast));
+    });
+
+    function setOverlayState(name, isOpen) {
+      const overlay = overlays[name];
+      if (!overlay) return;
+      overlay.classList.toggle("open", isOpen);
+      overlay.setAttribute("aria-hidden", String(!isOpen));
+      document.body.style.overflow = isOpen ? "hidden" : "";
+    }
+
+    document.querySelectorAll("[data-open-overlay]").forEach((button) => {
+      button.addEventListener("click", () => setOverlayState(button.dataset.openOverlay, true));
+    });
+
+    document.querySelectorAll("[data-close-overlay]").forEach((button) => {
+      button.addEventListener("click", () => setOverlayState(button.dataset.closeOverlay, false));
+    });
+
+    Object.entries(overlays).forEach(([name, overlay]) => {
+      overlay.addEventListener("click", (event) => {
+        if (event.target === overlay) setOverlayState(name, false);
+      });
+    });
+
+    const attendanceToggles = document.querySelectorAll(".attendance-toggle");
+    const weeklyTotal = document.getElementById("weekly-total");
+    const presentCount = document.getElementById("present-count");
+    const pendingCount = document.getElementById("pending-count");
+    const payrollSummaryLabel = document.getElementById("payroll-summary-label");
+
+    function updatePayrollSummary() {
+      let total = 0;
+      let present = 0;
+      let pending = 0;
+
+      attendanceToggles.forEach((toggle) => {
+        const card = toggle.closest(".worker-card");
+        const rate = Number(toggle.dataset.rate);
+        const daysNode = card.querySelector(".days-worked");
+        const wageNode = card.querySelector(".wage-amount");
+        const days = Number(daysNode.textContent);
+        const isVisible = card.style.display !== "none";
+
+        if (toggle.classList.contains("active") && isVisible) {
+          present += 1;
+        }
+
+        if (isVisible) {
+          total += rate * days;
+        }
+        wageNode.textContent = formatINR(rate * days);
+
+        if (isVisible && card.dataset.group.includes("pending")) {
+          pending += 1;
+        }
+      });
+
+      weeklyTotal.textContent = formatINR(total);
+      presentCount.textContent = `${present} Present Today`;
+      pendingCount.textContent = `${pending} Awaiting Release`;
+    }
+
+    attendanceToggles.forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        toggle.classList.toggle("active");
+        const daysNode = toggle.closest(".worker-card").querySelector(".days-worked");
+        const baseDays = Number(toggle.dataset.days);
+        daysNode.textContent = toggle.classList.contains("active") ? baseDays : Math.max(baseDays - 1, 0);
+        updatePayrollSummary();
+      });
+    });
+
+    const payrollTabs = document.querySelectorAll("[data-payroll-filter]");
+    const workerCards = document.querySelectorAll("#worker-list .worker-card");
+
+    payrollTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        payrollTabs.forEach((item) => item.classList.remove("active"));
+        tab.classList.add("active");
+        const filter = tab.dataset.payrollFilter;
+        payrollSummaryLabel.textContent =
+          filter === "staff" ? "Staff Payout Total" :
+          filter === "pending" ? "Pending Release Total" :
+          "Labour Payout Total";
+        workerCards.forEach((card) => {
+          card.style.display = card.dataset.group.includes(filter) ? "" : "none";
+          if (filter === "labour") {
+            card.style.display = card.dataset.group.includes("labour") ? "" : "none";
+          }
+          if (filter === "staff") {
+            card.style.display = card.dataset.group.includes("staff") ? "" : "none";
+          }
+          if (filter === "pending") {
+            card.style.display = card.dataset.group.includes("pending") ? "" : "none";
+          }
+        });
+        updatePayrollSummary();
+      });
+    });
+
+    document.getElementById("save-voice-log").addEventListener("click", () => {
+      setOverlayState("voice", false);
+      showToast("Saved: 50 bags cement added to Tower B inventory.");
+    });
+
+    document.getElementById("confirm-invoice").addEventListener("click", () => {
+      const supplier = document.getElementById("supplier-name").value;
+      const total = document.getElementById("invoice-total").value;
+      setOverlayState("invoice", false);
+      showToast(`Expense added: ${supplier} invoice booked for ${total}.`);
+    });
+
+    updatePayrollSummary();
+  </script>
+</body>
+</html>

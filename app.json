@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "SiteMind AI",
+    "slug": "sitemind-ai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#FAF7F2"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.samarthdevelopers.sitemindai"
+    },
+    "ios": {
+      "supportsTablet": true
+    }
+  }
+}
