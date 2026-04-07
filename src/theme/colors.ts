@@ -1,14 +1,34 @@
 export const colors = {
-  bg: "#FAF7F2",
-  surface: "#FFFFFF",
-  surfaceSoft: "#F5F0E8",
-  border: "#E3DDD3",
-  text: "#2A2118",
-  muted: "#7E7264",
-  accent: "#C17F3C",
-  accentSoft: "#F3DEC3",
-  heroA: "#2A2118",
-  heroB: "#3D2E20",
-  danger: "#B85C4A",
-  success: "#4A6741",
+  // Core backgrounds
+  bg:           "#F8F4EE",       // Warm parchment
+  surface:      "#FFFFFF",
+  surfaceSoft:  "#F2EDE4",       // Subtle warm tint
+  surfaceDeep:  "#EDE5D8",       // Card depth
+
+  // Borders
+  border:       "#DDD6CA",
+  borderStrong: "#C8BFB0",
+
+  // Text
+  text:         "#1E1710",       // Rich dark brown-black
+  muted:        "#7A6E62",
+  subtle:       "#A89F94",
+
+  // Brand — deep saffron-terracotta (construction / Nirman energy)
+  accent:       "#C4793A",       // Deeper, richer saffron
+  accentSoft:   "#F2DEC8",
+  accentVibrant:"#D4893F",
+
+  // Hero gradient stops
+  heroA:        "#1E1710",
+  heroB:        "#3A2810",
+
+  // Status
+  danger:       "#B85440",
+  success:      "#3E6B3A",
+  warning:      "#B07A28",
+
+  // Glassmorphism layer
+  glass:        "rgba(255,255,255,0.6)",
+  glassBorder:  "rgba(255,255,255,0.3)",
 };

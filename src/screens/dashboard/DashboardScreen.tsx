@@ -9,7 +9,7 @@ import { LegendItem, SpendingChart } from "../../components/cards/SpendingChart"
 import { InfoPill } from "../../components/feedback/InfoPill";
 import { colors } from "../../theme/colors";
 import { useAppContext } from "../../context/AppContext";
-import { MicIcon, ReceiptIcon } from "../../components/Icons";
+import { MicIcon, ReceiptIcon, UsersIcon } from "../../components/Icons";
 
 // Budget figures
 const BUDGET_TOTAL = 5525000;  // ₹55,25,000
@@ -17,7 +17,7 @@ const BUDGET_USED  = 4285000;  // ₹42,85,000
 const BUDGET_PROGRESS = BUDGET_USED / BUDGET_TOTAL; // ~0.78
 
 export function DashboardScreen() {
-  const { setVoiceOpen, setInvoiceOpen, showToast } = useAppContext();
+  const { setInvoiceOpen, showToast } = useAppContext();
 
   return (
     <ScrollView
@@ -26,7 +26,7 @@ export function DashboardScreen() {
     >
       {/* ─── Header ─────────────────────────────────── */}
       <HeroHeader
-        eyebrow="Construction Intelligence"
+        eyebrow="Site Intelligence"
         title="A calm financial brain for site operations."
         copy="Today's view — live stock, labour payouts and AI recommendations for Tower B and the Nashik Ring Road project."
       />
@@ -114,17 +114,6 @@ export function DashboardScreen() {
       <View style={styles.quickGrid}>
         <Pressable
           style={styles.quickCard}
-          onPress={() => setVoiceOpen(true)}
-        >
-          <View style={styles.quickIcon}>
-            <MicIcon size={24} color={colors.accent} />
-          </View>
-          <Text style={styles.quickTitle}>Voice Logger</Text>
-          <Text style={styles.quickSub}>Log material by voice</Text>
-        </Pressable>
-
-        <Pressable
-          style={styles.quickCard}
           onPress={() => setInvoiceOpen(true)}
         >
           <View style={[styles.quickIcon, styles.quickIconAlt]}>
@@ -132,6 +121,17 @@ export function DashboardScreen() {
           </View>
           <Text style={styles.quickTitle}>Invoice Scan</Text>
           <Text style={styles.quickSub}>Extract from PDF / image</Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.quickCard}
+          onPress={() => showToast("Payroll batch queued for Friday disbursement.")}
+        >
+          <View style={[styles.quickIcon, styles.quickIconAccent]}>
+            <UsersIcon size={24} color={colors.accent} />
+          </View>
+          <Text style={styles.quickTitle}>Run Payroll</Text>
+          <Text style={styles.quickSub}>Process weekly worker payments</Text>
         </Pressable>
       </View>
     </ScrollView>
@@ -216,6 +216,9 @@ const styles = StyleSheet.create({
   },
   quickIconAlt: {
     backgroundColor: "rgba(42,33,24,0.06)",
+  },
+  quickIconAccent: {
+    backgroundColor: "rgba(196,121,58,0.12)",
   },
   quickIconText: {
     fontSize: 22,

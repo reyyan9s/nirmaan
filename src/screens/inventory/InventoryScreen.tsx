@@ -11,12 +11,12 @@ import { HeroHeader } from "../../components/layout/HeroHeader";
 import { MaterialCard } from "../../components/cards/MaterialCard";
 import { colors } from "../../theme/colors";
 import { useAppContext } from "../../context/AppContext";
-import { SearchIcon, PackageIcon, PlusIcon, MicIcon } from "../../components/Icons";
+import { SearchIcon, PackageIcon, PlusIcon, BarChart2Icon } from "../../components/Icons";
 
 type StockFilter = "all" | "low";
 
 export function InventoryScreen() {
-  const { materialsData, showToast, setVoiceOpen } = useAppContext();
+  const { materialsData, showToast } = useAppContext();
 
   const [query, setQuery] = useState("");
   const [stockFilter, setStockFilter] = useState<StockFilter>("all");
@@ -109,18 +109,17 @@ export function InventoryScreen() {
           </Text>
         </Pressable>
 
-        {/* Voice Logger */}
+        {/* Export Report */}
         <Pressable
           style={styles.quickCard}
-          onPress={() => setVoiceOpen(true)}
+          onPress={() => showToast("Stock report exported. Check your downloads folder.")}
         >
           <View style={[styles.quickIcon, styles.quickIconAccent]}>
-            <MicIcon size={24} color={colors.accent} />
+            <BarChart2Icon size={24} color={colors.accent} />
           </View>
-          <Text style={styles.quickTitle}>Voice Logger</Text>
+          <Text style={styles.quickTitle}>Export Report</Text>
           <Text style={styles.quickSub}>
-            Say the material name and quantity. Entry auto-saves after
-            confirmation.
+            Download full stock snapshot as a printable PDF.
           </Text>
         </Pressable>
       </View>

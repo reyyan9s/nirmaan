@@ -41,7 +41,7 @@ export function AIChatScreen() {
             editable={false}
             value="Ask about cement demand, vendor costs or wage variance..."
           />
-          <Pressable style={styles.sendButton} onPress={() => showToast("Question queued for SiteMind AI.")}>
+          <Pressable style={styles.sendButton} onPress={() => showToast("Question queued for Nirman AI.")}>
             <SparklesIcon size={18} color="#FFFFFF" strokeWidth={2.5} />
           </Pressable>
         </View>

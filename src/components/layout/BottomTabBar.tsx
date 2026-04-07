@@ -52,7 +52,7 @@ export function BottomTabBar({ state, descriptors, navigation }: BottomTabBarPro
 const styles = StyleSheet.create({
   tabBar: {
     flexDirection: "row",
-    backgroundColor: "rgba(250,247,242,0.98)",
+    backgroundColor: colors.bg,
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderTopWidth: 1,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   tabIconActive: {
-    backgroundColor: "rgba(193,127,60,0.12)",
+    backgroundColor: colors.accentSoft,
   },
   tabLabel: {
     fontSize: 10,

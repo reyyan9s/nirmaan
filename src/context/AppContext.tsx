@@ -9,9 +9,7 @@ type AppContextType = {
   setPayrollFilter: React.Dispatch<React.SetStateAction<PayrollFilter>>;
   materialsData: Material[];
   
-  voiceOpen: boolean;
-  setVoiceOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  
+
   invoiceOpen: boolean;
   setInvoiceOpen: React.Dispatch<React.SetStateAction<boolean>>;
   supplierName: string;
@@ -33,7 +31,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [workers, setWorkers] = useState<Worker[]>(initialWorkers);
   const [payrollFilter, setPayrollFilter] = useState<PayrollFilter>("labour");
   
-  const [voiceOpen, setVoiceOpen] = useState(false);
   const [invoiceOpen, setInvoiceOpen] = useState(false);
   const [toast, setToast] = useState("");
   
@@ -66,8 +63,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         payrollFilter,
         setPayrollFilter,
         materialsData,
-        voiceOpen,
-        setVoiceOpen,
         invoiceOpen,
         setInvoiceOpen,
         supplierName,

@@ -1,22 +1,23 @@
 {
   "expo": {
-    "name": "SiteMind AI",
-    "slug": "sitemind-ai",
+    "name": "Nirman",
+    "slug": "nirman",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "splash": {
       "resizeMode": "contain",
-      "backgroundColor": "#FAF7F2"
+      "backgroundColor": "#F8F4EE"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "android": {
-      "package": "com.samarthdevelopers.sitemindai"
+      "package": "com.samarthdevelopers.nirman"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.samarthdevelopers.nirman"
     }
   }
 }

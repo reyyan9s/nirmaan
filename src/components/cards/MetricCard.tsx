@@ -14,6 +14,9 @@ interface MetricCardProps {
 export function MetricCard({ label, value, note, progress, subNote }: MetricCardProps) {
   return (
     <View style={[styles.metricCard, progress !== undefined && styles.metricCardFull]}>
+      {/* Top accent strip */}
+      <View style={styles.topAccent} />
+
       <Text style={styles.metricLabel}>{label}</Text>
       <Text style={styles.metricValue}>{value}</Text>
       {subNote ? (
@@ -38,30 +41,41 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.border,
-    borderRadius: 22,
+    borderRadius: 20,
     padding: 18,
+    paddingTop: 20,
     minHeight: 132,
     overflow: "hidden",
+  },
+  topAccent: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 3,
+    backgroundColor: colors.accentSoft,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   metricCardFull: {
     width: "100%",
     minHeight: 110,
   },
   metricLabel: {
-    fontSize: 11,
-    letterSpacing: 1.8,
+    fontSize: 10,
+    letterSpacing: 2,
     textTransform: "uppercase",
-    color: colors.muted,
+    color: colors.subtle,
     fontWeight: "700",
-    marginBottom: 10,
+    marginBottom: 8,
     fontFamily: "DMSans_700Bold",
   },
   metricValue: {
     color: colors.text,
-    fontSize: 31,
+    fontSize: 30,
     fontFamily: "Fraunces_300Light",
     fontWeight: "300",
-    letterSpacing: -1.1,
+    letterSpacing: -1.2,
   },
   subNote: {
     marginTop: 4,
@@ -79,9 +93,9 @@ const styles = StyleSheet.create({
   },
   progressTrack: {
     marginTop: 14,
-    height: 5,
+    height: 4,
     borderRadius: 99,
-    backgroundColor: colors.surfaceSoft,
+    backgroundColor: colors.surfaceDeep,
     overflow: "hidden",
   },
   progressFill: {
@@ -95,7 +109,7 @@ const styles = StyleSheet.create({
     right: 18,
     bottom: 0,
     height: 3,
-    backgroundColor: colors.accent,
+    backgroundColor: colors.accentSoft,
     borderTopLeftRadius: 99,
     borderTopRightRadius: 99,
   },

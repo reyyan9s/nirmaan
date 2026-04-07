@@ -11,19 +11,16 @@ import {
   Fraunces_300Light,
   Fraunces_400Regular,
 } from "@expo-google-fonts/fraunces";
+import { NavigationContainer } from "@react-navigation/native";
 import { AppProvider, useAppContext } from "./src/context/AppContext";
 import { AppNavigator } from "./src/navigation/AppNavigator";
 import { Header } from "./src/components/layout/Header";
 import { AppContainer } from "./src/components/layout/AppContainer";
-import { VoiceModal } from "./src/components/feedback/VoiceModal";
 import { InvoiceModal } from "./src/components/feedback/InvoiceModal";
 import { Toast } from "./src/components/feedback/Toast";
 
-// The Global Modals wrapper
 function GlobalModals() {
   const {
-    voiceOpen,
-    setVoiceOpen,
     invoiceOpen,
     setInvoiceOpen,
     supplierName,
@@ -40,14 +37,6 @@ function GlobalModals() {
 
   return (
     <>
-      <VoiceModal
-        visible={voiceOpen}
-        onClose={() => setVoiceOpen(false)}
-        onConfirm={() => {
-          setVoiceOpen(false);
-          showToast("Saved: 50 bags cement added to Tower B inventory.");
-        }}
-      />
       <InvoiceModal
         visible={invoiceOpen}
         onClose={() => setInvoiceOpen(false)}
@@ -87,18 +76,20 @@ function MainApp() {
   if (!dmSansLoaded || !frauncesLoaded) {
     return (
       <View style={styles.loadingScreen}>
-        <ActivityIndicator size="large" color="#C17F3C" />
+        <ActivityIndicator size="large" color="#C4793A" />
       </View>
     );
   }
 
   return (
     <AppProvider>
-      <AppContainer>
-        <Header />
-        <AppNavigator />
-        <GlobalModals />
-      </AppContainer>
+      <NavigationContainer>
+        <AppContainer>
+          <Header />
+          <AppNavigator />
+          <GlobalModals />
+        </AppContainer>
+      </NavigationContainer>
     </AppProvider>
   );
 }
