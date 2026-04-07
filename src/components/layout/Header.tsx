@@ -15,18 +15,12 @@ export function Header({ showBack }: HeaderProps) {
   return (
     <View style={styles.topBar}>
       <View style={styles.brandRow}>
-        {/* Logo mark — brick-like icon built from view boxes */}
-        <View style={styles.logoMark}>
-          <View style={styles.logoRow}>
-            <View style={[styles.logoBrick, { backgroundColor: colors.accent }]} />
-            <View style={[styles.logoBrick, { backgroundColor: colors.accentSoft, width: 7 }]} />
-          </View>
-          <View style={styles.logoRow}>
-            <View style={[styles.logoBrick, { backgroundColor: colors.accentSoft, width: 7 }]} />
-            <View style={[styles.logoBrick, { backgroundColor: colors.accent }]} />
-          </View>
-        </View>
-        <View>
+        <Image 
+          source={require("../../assets/logo.png")} 
+          style={styles.logoImage} 
+          resizeMode="contain"
+        />
+        <View style={styles.brandTextContainer}>
           <Text style={styles.brandTitle}>Nirman</Text>
           <Text style={styles.brandSubtitle}>Samarth Developers • Nashik Ring Road</Text>
         </View>
@@ -64,29 +58,12 @@ const styles = StyleSheet.create({
     gap: 12,
     flex: 1,
   },
-  // Custom brick-pattern logo mark
-  logoMark: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    backgroundColor: colors.surfaceDeep,
-    borderWidth: 1,
-    borderColor: colors.borderStrong,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 3,
-    overflow: "hidden",
-    padding: 6,
+  logoImage: {
+    width: 32,
+    height: 32,
   },
-  logoRow: {
-    flexDirection: "row",
-    gap: 3,
-    alignItems: "center",
-  },
-  logoBrick: {
-    height: 5,
-    width: 10,
-    borderRadius: 2,
+  brandTextContainer: {
+    flex: 1,
   },
   brandTitle: {
     color: colors.text,

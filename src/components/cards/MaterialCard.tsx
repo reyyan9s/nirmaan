@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { colors } from "../../theme/colors";
-import { Material } from "../../data/mockData";
+import { Material } from "../../types";
 import { Card } from "./Card";
 import { InfoPill } from "../feedback/InfoPill";
 import { MiniBarChart } from "./MiniBarChart";

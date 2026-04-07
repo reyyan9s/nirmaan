@@ -17,7 +17,19 @@ const BUDGET_USED  = 4285000;  // ₹42,85,000
 const BUDGET_PROGRESS = BUDGET_USED / BUDGET_TOTAL; // ~0.78
 
 export function DashboardScreen() {
-  const { setInvoiceOpen, showToast } = useAppContext();
+  const { setInvoiceOpen, showToast, workers, materialsData } = useAppContext();
+
+  // Dynamic calculations
+  const labourCount = workers.filter(w => w.type === 'labour').length;
+  const staffCount = workers.filter(w => w.type === 'staff').length;
+  const activeToday = workers.filter(w => w.present).length;
+  const lowStockCount = materialsData.filter(m => m.low).length;
+  
+  const pendingPayoutTotal = workers
+    .filter(w => w.status === 'Pending')
+    .reduce((sum, w) => sum + (w.rateValue * w.baseDays), 0);
+  
+  const formatINR = (amt: number) => `₹${new Intl.NumberFormat('en-IN').format(amt)}`;
 
   return (
     <ScrollView
@@ -45,13 +57,13 @@ export function DashboardScreen() {
       <View style={styles.metricRow}>
         <MetricCard
           label="Weekly Payout"
-          value="₹8,72,400"
-          note="168 slips ready, 32 pending"
+          value={formatINR(pendingPayoutTotal)}
+          note={`${workers.filter(w=>w.status==='Pending').length} workers pending`}
         />
         <MetricCard
           label="Active Workers"
-          value="218"
-          note="188 labour + 30 staff today"
+          value={String(activeToday)}
+          note={`${labourCount} labour + ${staffCount} staff total`}
         />
       </View>
 

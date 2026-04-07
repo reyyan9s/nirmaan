@@ -1,5 +1,6 @@
+// App.tsx — patched to wire Firebase invoice actions from context
 import React from "react";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import {
   useFonts as useDMSans,
   DMSans_400Regular,
@@ -33,6 +34,9 @@ function GlobalModals() {
     setInvoiceTotal,
     toast,
     showToast,
+    // Firebase-backed actions (new)
+    confirmInvoice,
+    saveDraftInvoice,
   } = useAppContext();
 
   return (
@@ -48,13 +52,13 @@ function GlobalModals() {
         setInvoiceItems={setInvoiceItems}
         setInvoiceQuantity={setInvoiceQuantity}
         setInvoiceTotal={setInvoiceTotal}
-        onConfirm={() => {
+        onConfirm={async () => {
           setInvoiceOpen(false);
-          showToast(`Expense added: ${supplierName} invoice booked for ${invoiceTotal}.`);
+          await confirmInvoice();
         }}
-        onSaveDraft={() => {
+        onSaveDraft={async () => {
           setInvoiceOpen(false);
-          showToast(`Draft saved: ${supplierName} invoice (${invoiceTotal}) stored for later review.`);
+          await saveDraftInvoice();
         }}
       />
       <Toast message={toast} />

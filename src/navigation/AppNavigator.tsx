@@ -1,18 +1,22 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { TabNavigator } from "./TabNavigator";
+import { LoginScreen } from "../screens/auth/LoginScreen";
 import { PlaceholderScreen } from "../screens/PlaceholderScreen";
 
 const RootStack = createNativeStackNavigator();
 
 export function AppNavigator() {
   return (
-    <RootStack.Navigator screenOptions={{ headerShown: false }}>
+    <RootStack.Navigator 
+      screenOptions={{ headerShown: false }}
+      initialRouteName="Login" // Default to show the new login screen with logo
+    >
       {/* We can place an initial Auth flow here, but we default to Main App for now */}
       <RootStack.Screen name="Main" component={TabNavigator} />
       
       {/* Auth Screens (Stubs) */}
-      <RootStack.Screen name="Login" component={PlaceholderScreen} />
+      <RootStack.Screen name="Login" component={LoginScreen} />
       <RootStack.Screen name="Register" component={PlaceholderScreen} />
       <RootStack.Screen name="ForgotPassword" component={PlaceholderScreen} />
       

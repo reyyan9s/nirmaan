@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Switch } from "react-native";
 import { colors } from "../../theme/colors";
-import { Worker } from "../../data/mockData";
+import { Worker } from "../../types";
 import { StatusBadge } from "../feedback/StatusBadge";
 import { SlipCell } from "./PaymentSlipCard";
 

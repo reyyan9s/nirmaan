@@ -1,0 +1,81 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function userRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function isRole(role) {
+      return isSignedIn() && userRole() == role;
+    }
+
+    function isAnyOf(roles) {
+      return isSignedIn() && userRole() in roles;
+    }
+
+    // ── users ────────────────────────────────────────────────────────────────
+    // Users can read their own profile; only Admins can write profiles.
+    match /users/{userId} {
+      allow read: if isSignedIn() && (request.auth.uid == userId || isRole('Admin'));
+      allow write: if isRole('Admin');
+    }
+
+    // ── workers ──────────────────────────────────────────────────────────────
+    // Any signed-in user can read workers.
+    // Admin / Manager can create + update.
+    // Only Admin can delete.
+    match /workers/{workerId} {
+      allow read: if isSignedIn();
+      allow create, update: if isAnyOf(['Admin', 'Manager']);
+      allow delete: if isRole('Admin');
+    }
+
+    // ── attendance_logs ───────────────────────────────────────────────────────
+    // Admin, Manager, Worker can read.
+    // Admin / Manager can write.
+    match /attendance_logs/{logId} {
+      allow read: if isSignedIn();
+      allow write: if isAnyOf(['Admin', 'Manager']);
+    }
+
+    // ── materials ─────────────────────────────────────────────────────────────
+    // Any signed-in user can read.
+    // Admin / Manager can create + update.
+    // Only Admin can delete.
+    // Validate stock values are non-negative numbers.
+    match /materials/{materialId} {
+      allow read: if isSignedIn();
+      allow create: if isAnyOf(['Admin', 'Manager'])
+        && request.resource.data.currentStock is number
+        && request.resource.data.currentStock >= 0;
+      allow update: if isAnyOf(['Admin', 'Manager'])
+        && request.resource.data.currentStock is number
+        && request.resource.data.currentStock >= 0;
+      allow delete: if isRole('Admin');
+    }
+
+    // ── material_usage ────────────────────────────────────────────────────────
+    match /material_usage/{usageId} {
+      allow read: if isSignedIn();
+      allow create: if isAnyOf(['Admin', 'Manager']);
+      allow update, delete: if isRole('Admin');
+    }
+
+    // ── invoices ──────────────────────────────────────────────────────────────
+    // Admin / Finance / Manager can read.
+    // Admin / Finance can create + update.
+    // Only Admin can delete.
+    match /invoices/{invoiceId} {
+      allow read: if isAnyOf(['Admin', 'Finance', 'Manager']);
+      allow create: if isAnyOf(['Admin', 'Finance']);
+      allow update: if isAnyOf(['Admin', 'Finance']);
+      allow delete: if isRole('Admin');
+    }
+  }
+}
